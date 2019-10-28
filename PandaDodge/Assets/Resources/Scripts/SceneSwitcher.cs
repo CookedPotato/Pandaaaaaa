@@ -22,4 +22,14 @@ public class SceneSwitcher : MonoBehaviour
     {
         SceneManager.LoadScene("Kitchen");
     }
+
+    public void GoToCollections()
+    {
+        SceneManager.LoadScene("Collections");
+    }
+
+    public void GoToMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
 }

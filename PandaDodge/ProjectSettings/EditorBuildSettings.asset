@@ -6,14 +6,17 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Resources/Scenes/SampleScene.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 1
     path: Assets/Resources/Scenes/MainMenu.unity
     guid: de799aef6bc814a7e885a2f37e78bc99
   - enabled: 1
     path: Assets/Resources/Scenes/StageSelect.unity
     guid: ed9fe78516fb048abbcce7c3b3e46d25
+  - enabled: 1
+    path: Assets/Resources/Scenes/Collections.unity
+    guid: f7259a14efdbc4f53a259aa035247532
+  - enabled: 1
+    path: Assets/Resources/Scenes/SampleScene.unity
+    guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
     path: Assets/Resources/Scenes/MyFridge.unity
     guid: b43e0c3893d1b5448bd0035738439dfe

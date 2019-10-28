@@ -6,8 +6,9 @@ using UnityEngine;
 public class Save
 {
     public Dictionary<string, int> ingredientsCollected;
+    public int coins;
     public int levelCompleted;
     
-    public bool[] unlocked = {true, true, true, false, false, false, false, false, false, false };
+    public bool[] unlocked = {true, false, false, false, false, false, false, false, false, false };
 }
 

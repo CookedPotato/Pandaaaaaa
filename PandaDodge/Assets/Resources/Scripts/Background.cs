@@ -17,7 +17,8 @@ public class Background : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         //spriteRenderer.sprite = Resources.Load<Sprite>("Sprites/lv1background");
 
-        Save savedData = readData(); 
+        Save savedData = readData();
+        Debug.Log("coins: " + savedData.coins);
         if (savedData.unlocked[1] == false)
         {
             spriteRenderer.sprite = backgroundImage;
@@ -43,10 +44,13 @@ public class Background : MonoBehaviour
     public Save readData() 
     {
         BinaryFormatter bf = new BinaryFormatter();
-        FileStream OldFile = File.Open(Application.persistentDataPath + "/gamesave.save", FileMode.Open);
-        Save OldData = (Save)bf.Deserialize(OldFile);
-        OldFile.Close();
-
-        return OldData;
+        //if (File.Exists(Application.persistentDataPath + "/gamesave.save"))
+        //{
+            FileStream OldFile = File.Open(Application.persistentDataPath + "/gamesave.save", FileMode.Open);
+            Save OldData = (Save)bf.Deserialize(OldFile);
+            OldFile.Close();
+            return OldData;
+        //}
+        //return new Save();
     }
 }

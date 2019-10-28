@@ -76,25 +76,27 @@ public class Player : MonoBehaviour
     void FixedUpdate()
     {
         // Storing player's input
-        if(controlFlag == 1)
+        if (controlFlag == 1)
         {
             input = Input.GetAxisRaw("Horizontal");
             //Debug.Log(input);
         }
         else if (controlFlag == 0)
         {
-            Vector2 touchPosition;
-            touchPosition = Input.GetTouch(0).position;
-            if (touchPosition.x > Screen.width / 2)
-            {
-                input = 1;
-            }
-            else
-            {
-                input = -1;
+            input = 0;
+            if (Input.touchCount > 0) {
+                Vector2 touchPosition;
+                touchPosition = Input.GetTouch(0).position;
+                if (touchPosition.x > Screen.width / 2)
+                {
+                    input = 1;
+                }
+                else
+                {
+                    input = -1;
+                }
             }
         }
-        
 
         // Moving player
         rb.velocity = new Vector2(input * speed, rb.velocity.y);
@@ -113,8 +115,10 @@ public class Player : MonoBehaviour
     }
 
 	public void AddHealth() {
-		health += 1;
-		healthDisplay.text = health.ToString();
+        if (health < 3) {
+            health += 1;
+            healthDisplay.text = health.ToString();
+        }
 	}
 
 	public void CollectIngredient(string ingredient) {
@@ -141,12 +145,12 @@ public class Player : MonoBehaviour
             Save OldData = (Save)bf.Deserialize(OldFile);
             OldFile.Close();
 
+            Dictionary<string, int> UpdatedIngredients = OldData.ingredientsCollected;
             //These lines overwrites the loaded data
             foreach (KeyValuePair<string, int> ingredient in ingredients)
             {
                 string thisKey = ingredient.Key;
                 int amount = ingredient.Value;
-                Dictionary<string, int> UpdatedIngredients = OldData.ingredientsCollected;
                 if (UpdatedIngredients.ContainsKey(thisKey))
                 {
                     UpdatedIngredients[thisKey] += amount;
@@ -154,10 +158,10 @@ public class Player : MonoBehaviour
                 {
                     UpdatedIngredients.Add(thisKey, amount);
                 }
-                save.ingredientsCollected = UpdatedIngredients;
-                save.levelCompleted = currentLevel;
-
             }
+            save.ingredientsCollected = UpdatedIngredients;
+            save.coins += OldData.coins;
+            save.levelCompleted = currentLevel;
         }
         FileStream NewFile = File.Create(Application.persistentDataPath + "/gamesave.save");
         bf.Serialize(NewFile, save);
@@ -171,6 +175,7 @@ public class Player : MonoBehaviour
         Save save = new Save();
 
         save.ingredientsCollected = ingredients;
+        save.coins = coin;
         save.levelCompleted = currentLevel;
 
         return save;
@@ -179,7 +184,7 @@ public class Player : MonoBehaviour
 
     private void GameFinished() {
 		string collection = "";
-		if (ingredients.Count == 0)
+		if (ingredients.Count == 0 && coin == 0)
 			collection = "You Got Nothing!";
 		else {
 			collection = "You Got: \n\n";
@@ -192,8 +197,7 @@ public class Player : MonoBehaviour
 		losePanel.SetActive(true);
         Destroy(gameObject);
 
-        // Store data to local 
-		// TODO: Save coins in another file.
+        // Store data to local
         SaveGame();
 
     }
